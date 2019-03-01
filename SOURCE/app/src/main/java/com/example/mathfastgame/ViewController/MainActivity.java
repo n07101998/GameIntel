@@ -1,9 +1,12 @@
-package com.example.mathfastgame;
+package com.example.mathfastgame.ViewController;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.mathfastgame.R;
+import com.example.mathfastgame.ViewController.Base.BaseActivity;
+
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

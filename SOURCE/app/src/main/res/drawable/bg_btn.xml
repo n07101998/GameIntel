@@ -7,7 +7,7 @@
                 <shape>
                     <solid android:color="#141414"/>
                     <!-- alttan gölge -->
-                    <corners android:radius="19dp"/>
+                    <corners android:radius="17dp"/>
                 </shape>
             </item>
             <!-- BUTTON alttan gölge

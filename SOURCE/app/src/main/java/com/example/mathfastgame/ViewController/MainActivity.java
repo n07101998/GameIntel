@@ -30,6 +30,7 @@ public class MainActivity extends BaseActivity {
     Random random = new Random();
     int point = 0;
     int pos;
+    int rangeRandom=20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class MainActivity extends BaseActivity {
         GameDataSoucre gameDataSoucre = new GameDataSoucre(this);
         arrData = gameDataSoucre.getAllGameData();
 
-        pos = random.nextInt(17);
+        pos = random.nextInt(rangeRandom);
         txtQues.setText(arrData.get(pos).getQues());
     }
 
@@ -87,7 +88,7 @@ public class MainActivity extends BaseActivity {
     void processLogic(String answer){
         if (arrData.get(pos).getAnswer().trim().equals(answer)) {
             plusPoint();
-            pos = random.nextInt(17);
+            pos = random.nextInt(rangeRandom);
             txtQues.setText(arrData.get(pos).getQues());
         }else {
             Intent intent=new Intent(MainActivity.this,GameOverActivity.class);

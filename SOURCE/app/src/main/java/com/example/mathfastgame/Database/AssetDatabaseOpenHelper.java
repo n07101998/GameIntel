@@ -2,6 +2,7 @@ package com.example.mathfastgame.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 import java.io.File;
@@ -10,13 +11,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class AssetDatabaseOpenHelper {
-    public static final String DB_NAME = "gameIntel.db";
+public class AssetDatabaseOpenHelper extends SQLiteOpenHelper {
+    public static final String DB_NAME = "gameIntel1.db";
     String DB_PATH_SUFFIX = "/databases/";
+
 
     private Context context;
 
     public AssetDatabaseOpenHelper(Context context) {
+        super(context,DB_NAME,null,2);
         this.context = context;
     }
 
@@ -65,6 +68,14 @@ public class AssetDatabaseOpenHelper {
     }
 
 
+    @Override
+    public void onCreate(SQLiteDatabase db) {
 
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
 }
 

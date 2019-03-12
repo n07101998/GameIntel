@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 
 import com.example.mathfastgame.R;
 import com.example.mathfastgame.ViewController.Base.BaseActivity;
+import com.example.mathfastgame.ViewController.Rank.RankActivity;
 
 public class HomeActivity extends BaseActivity {
     ImageButton btnPlay,btnRank,btnInfor;
@@ -27,6 +28,14 @@ public class HomeActivity extends BaseActivity {
                 Intent intent=new Intent(HomeActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+        btnRank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this, RankActivity.class);
+                startActivity(intent);
+
             }
         });
     }

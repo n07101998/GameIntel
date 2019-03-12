@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F43662"
+        android:background="@drawable/bg_gameover"
         android:orientation="vertical">
 
         <TextView
@@ -32,7 +32,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Điểm:"
+                android:text="Last:"
                 android:textColor="@color/colorWhite"
                 android:textSize="36sp" />
 

@@ -20,6 +20,8 @@ import com.example.mathfastgame.ViewController.Base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends BaseActivity {
     ProgressBar pbCount;
@@ -30,7 +32,10 @@ public class MainActivity extends BaseActivity {
     Random random = new Random();
     int point = 0;
     int pos;
-    int rangeRandom=20;
+    int rangeRandom=50;
+    int count=10;
+    Timer timer;
+    boolean isGameOver=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +60,11 @@ public class MainActivity extends BaseActivity {
         db.processCopy();
         GameDataSoucre gameDataSoucre = new GameDataSoucre(this);
         arrData = gameDataSoucre.getAllGameData();
-
         pos = random.nextInt(rangeRandom);
         txtQues.setText(arrData.get(pos).getQues());
     }
 
     private void init() {
-
         pbCount = findViewById(R.id.pb_count);
         txtQues = findViewById(R.id.txt_ques);
         txtPoint = findViewById(R.id.txt_point);
@@ -87,14 +90,45 @@ public class MainActivity extends BaseActivity {
     }
     void processLogic(String answer){
         if (arrData.get(pos).getAnswer().trim().equals(answer)) {
+            if(timer != null) {
+                timer.cancel();
+                timer = null;
+            }
+            count=11;
+            processCountDown();
             plusPoint();
             pos = random.nextInt(rangeRandom);
             txtQues.setText(arrData.get(pos).getQues());
         }else {
-            Intent intent=new Intent(MainActivity.this,GameOverActivity.class);
-            intent.putExtra("point",point);
-            startActivity(intent);
-            finish();
+            isGameOver=true;
+            processGameOver();
         }
+    }
+
+    private void processGameOver() {
+        Intent intent=new Intent(MainActivity.this,GameOverActivity.class);
+        intent.putExtra("point",point);
+        startActivity(intent);
+        finish();
+    }
+
+    void processCountDown(){
+        TimerTask timerTask=new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        count--;
+                        pbCount.setProgress(count);
+                        if (count==0 && !isGameOver){
+                            processGameOver();
+                        }
+                    }
+                });
+            }
+        };
+        timer=new Timer();
+        timer.schedule(timerTask,0,150);
     }
 }

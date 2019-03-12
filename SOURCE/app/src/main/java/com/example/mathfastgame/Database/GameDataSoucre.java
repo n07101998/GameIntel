@@ -8,13 +8,15 @@ import com.example.mathfastgame.Model.Game;
 
 import java.util.ArrayList;
 
+import static com.example.mathfastgame.Database.AssetDatabaseOpenHelper.DB_NAME;
+import static com.example.mathfastgame.Database.AssetDatabaseOpenHelper.database;
+
 public class GameDataSoucre {
     public static String TABLE_NAME="game";
-    SQLiteDatabase database;
     public static String sqlSelectAll="SELECT * FROM "+TABLE_NAME;
 
     public GameDataSoucre(Context context) {
-        database =context.openOrCreateDatabase(AssetDatabaseOpenHelper.DB_NAME,Context.MODE_PRIVATE,null);
+        database=context.openOrCreateDatabase(DB_NAME,Context.MODE_PRIVATE,null);
     }
 
     public ArrayList<Game> getAllGameData(){

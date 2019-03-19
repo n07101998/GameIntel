@@ -1,21 +1,37 @@
 package com.example.mathfastgame.ViewController;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.facebook.FacebookSdk;
 import com.example.mathfastgame.Database.UserDataSource;
 import com.example.mathfastgame.Model.User;
 import com.example.mathfastgame.R;
+import com.example.mathfastgame.Util.Util;
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.MessageDialog;
+import com.facebook.share.widget.ShareDialog;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class GameOverActivity extends AppCompatActivity {
 
@@ -25,13 +41,29 @@ public class GameOverActivity extends AppCompatActivity {
     int point;
     Button btnok;
     EditText edtNameUser;
-    View dialogView;
+    ShareDialog shareDialog;
+    int top;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+      //  FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_game_over);
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.example.mathfastgame",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        }  catch (NoSuchAlgorithmException e) {
+            Log.d("ggfg", "onCreate: "+e.toString());
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            Log.d("ggfg", "onCreate: "+e.toString());
+        }
         init();
-
     }
 
     private void init() {
@@ -43,18 +75,49 @@ public class GameOverActivity extends AppCompatActivity {
         btnShare=findViewById(R.id.btn_share);
         txtPoint.setText(point+"");
         addEvents();
-        dialogView= LayoutInflater.from(this).inflate(R.layout.infor_user,null);
         userDataSource=new UserDataSource(this);
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        builder.setView(dialogView);
-        final AlertDialog dialog=builder.create();
+        if (Util.arrUser.size()<=5){
+            addUser();
+        }else {
+            processTop();
+        }
+        for (int i = 0; i <Util.arrUser.size() ; i++) {
+            if (point>Util.arrUser.get(i).getPoint()){
+                top=(i+1);
+                txtTop.setText(top+"");
+
+                break;
+
+            }else {
+                Log.d("fgg", "init: ");
+                top=Util.arrUser.size();
+                txtTop.setText(top+"");
+            }
+        }
+
+    }
+
+    private void processTop() {
+        for (int i = 0; i < 5; i++) {
+            if (point>Util.arrUser.get(i).getPoint()){
+                addUser();
+                break;
+
+            }
+        }
+    }
+
+    private void addUser() {
+        final Dialog dialog=new Dialog(this);
+        dialog.setContentView(R.layout.infor_user);
         dialog.setCancelable(false);
-        btnok=dialogView.findViewById(R.id.btn_ok);
-        edtNameUser=dialogView.findViewById(R.id.edt_name_user);
+        btnok=dialog.findViewById(R.id.btn_ok);
+        edtNameUser=dialog.findViewById(R.id.edt_name_user);
         dialog.show();
         btnok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 User user=new User();
                 user.setNameUser(edtNameUser.getText().toString());
                 user.setPoint(point);
@@ -67,7 +130,6 @@ public class GameOverActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void addEvents() {
@@ -86,6 +148,19 @@ public class GameOverActivity extends AppCompatActivity {
                 Intent intent=new Intent(GameOverActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+        shareDialog=new ShareDialog(this);
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareLinkContent content = new ShareLinkContent.Builder()
+                        .setContentUrl(Uri.parse("https://play.google.com/store/apps/details?id=com.bangdev.freakingmath&hl=vi"))
+                        .setShareHashtag(new ShareHashtag.Builder()
+                                .setHashtag("#Top"+top+" math fast")
+                                .build())
+                                .build();
+                shareDialog.show(content);
             }
         });
     }

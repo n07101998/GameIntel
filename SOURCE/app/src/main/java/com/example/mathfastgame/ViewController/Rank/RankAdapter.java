@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mathfastgame.Model.User;
@@ -23,7 +24,12 @@ public class RankAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return arrData.size();
+        if (arrData.size()<=5){
+            return arrData.size();
+        }else {
+            return 5;
+        }
+
     }
 
     @Override
@@ -48,21 +54,30 @@ public class RankAdapter extends BaseAdapter {
             viewHolder= (ViewHolder) convertView.getTag();
         }
         User user=arrData.get(position);
-        viewHolder.setUpView(user,position+1);
+        viewHolder.setUpView(user,position);
         return convertView;
     }
     class ViewHolder{
         TextView txtSTT,txtNameUser,txtPoint;
+        ImageView imgCham;
 
         public ViewHolder(View view) {
             txtSTT=view.findViewById(R.id.txt_stt);
             txtNameUser=view.findViewById(R.id.txt_name_user);
             txtPoint=view.findViewById(R.id.txt_point);
+            imgCham=view.findViewById(R.id.img_cham);
         }
         public void setUpView(User user,int pos){
-            txtSTT.setText(pos+"");
+            txtSTT.setText((pos+1)+"");
             txtNameUser.setText(user.getNameUser());
             txtPoint.setText(user.getPoint()+"");
+            if (pos==0){
+                imgCham.setVisibility(View.VISIBLE);
+                txtSTT.setVisibility(View.GONE);
+            }else {
+                imgCham.setVisibility(View.GONE);
+                txtSTT.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

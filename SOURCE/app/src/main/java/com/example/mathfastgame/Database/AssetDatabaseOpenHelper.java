@@ -2,7 +2,6 @@ package com.example.mathfastgame.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,7 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class AssetDatabaseOpenHelper{
-    public static final String DB_NAME = "gameIntel1_fix_batabase.db";
+    public static final String DB_NAME = "gameIntel_fix_batabase.db";
     String DB_PATH_SUFFIX = "/databases/";
     int ver=1;
     private Context context;
@@ -38,6 +37,8 @@ public class AssetDatabaseOpenHelper{
             {
                 Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
             }
+        }else {
+            Log.d("ffggf", "processCopy: ");
         }
     }
     public String getDatabasePath() {

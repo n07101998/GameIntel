@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.mathfastgame.Model.User;
 
@@ -11,7 +13,6 @@ import java.util.ArrayList;
 
 public class UserDataSource {
     public static String TABLE_NAME="user";
-    public static String sqlSelectAll="SELECT * FROM "+TABLE_NAME;
 
     public UserDataSource(Context context) {
         AssetDatabaseOpenHelper.database=context.openOrCreateDatabase(AssetDatabaseOpenHelper.DB_NAME,Context.MODE_PRIVATE,null);
@@ -29,17 +30,22 @@ public class UserDataSource {
     public ArrayList<User> getListUser(){
         ArrayList<User> arrUser =new ArrayList<>();
         //câu lệch truy vấn
-        String sql="SELECT * FROM "+TABLE_NAME;
-        Cursor cursor=AssetDatabaseOpenHelper.database.rawQuery(sql,null);
-        arrUser.clear();
-        while (cursor.moveToNext()){
-            int id=cursor.getInt(0);
-            String nameUser=cursor.getString(1);
-            int point=cursor.getInt(2);
-            User user=new User(id,point,nameUser);
-            arrUser.add(user);
-        }
-        cursor.close();
+       try {
+           String sql="SELECT * FROM "+TABLE_NAME;
+           Cursor cursor=AssetDatabaseOpenHelper.database.rawQuery(sql,null);
+           arrUser.clear();
+           while (cursor.moveToNext()){
+               int id=cursor.getInt(0);
+               String nameUser=cursor.getString(1);
+               int point=cursor.getInt(2);
+               User user=new User(id,point,nameUser);
+               arrUser.add(user);
+           }
+           cursor.close();
+       }catch (Exception e){
+           Log.d("fggg", "getListUser: "+e.toString());
+       }
+
         return arrUser;
     }
 }

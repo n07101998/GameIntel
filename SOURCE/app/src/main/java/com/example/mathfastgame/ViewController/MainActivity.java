@@ -56,8 +56,6 @@ public class MainActivity extends BaseActivity {
                 return textView;
             }
         });
-        AssetDatabaseOpenHelper db = new AssetDatabaseOpenHelper(this);
-        db.processCopy();
         GameDataSoucre gameDataSoucre = new GameDataSoucre(this);
         arrData = gameDataSoucre.getAllGameData();
         pos = random.nextInt(rangeRandom);

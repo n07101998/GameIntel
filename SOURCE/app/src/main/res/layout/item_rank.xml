@@ -10,7 +10,15 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/img_cham"
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:src="@mipmap/cham"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
         <TextView
+
             android:layout_weight="1"
             android:id="@+id/txt_stt"
             android:textColor="@color/colorBlack"

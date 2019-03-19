@@ -45,6 +45,12 @@ public class MainActivity extends BaseActivity {
         setUpView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isGameOver=false;
+    }
+
     private void setUpView() {
         txtQues.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
@@ -97,7 +103,7 @@ public class MainActivity extends BaseActivity {
             plusPoint();
             pos = random.nextInt(rangeRandom);
             txtQues.setText(arrData.get(pos).getQues());
-        }else {
+        }else{
             isGameOver=true;
             processGameOver();
         }
@@ -121,6 +127,7 @@ public class MainActivity extends BaseActivity {
                         pbCount.setProgress(count);
                         if (count==0 && !isGameOver){
                             processGameOver();
+                            isGameOver=true;
                         }
                     }
                 });

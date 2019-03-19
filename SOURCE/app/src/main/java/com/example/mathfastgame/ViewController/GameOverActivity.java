@@ -1,5 +1,6 @@
 package com.example.mathfastgame.ViewController;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -7,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,9 +30,15 @@ import com.example.mathfastgame.R;
 import com.example.mathfastgame.Util.Util;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.MessageDialog;
 import com.facebook.share.widget.ShareDialog;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -139,6 +148,8 @@ public class GameOverActivity extends AppCompatActivity {
                 Intent intent=new Intent(GameOverActivity.this,HomeActivity.class);
                 startActivity(intent);
                 finish();
+
+
             }
         });
 
@@ -154,14 +165,23 @@ public class GameOverActivity extends AppCompatActivity {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShareLinkContent content = new ShareLinkContent.Builder()
-                        .setContentUrl(Uri.parse("https://play.google.com/store/apps/details?id=com.bangdev.freakingmath&hl=vi"))
-                        .setShareHashtag(new ShareHashtag.Builder()
-                                .setHashtag("#Top"+top+" math fast")
-                                .build())
-                                .build();
+                Bitmap bitmap = takeScreenshot();
+                SharePhoto photo = new SharePhoto.Builder()
+                        .setBitmap(bitmap)
+                        .build();
+                SharePhotoContent content = new SharePhotoContent.Builder()
+                        .addPhoto(photo)
+                        .build();
                 shareDialog.show(content);
             }
         });
     }
+
+    public Bitmap takeScreenshot() {
+        View rootView = findViewById(android.R.id.content).getRootView();
+        rootView.setDrawingCacheEnabled(true);
+        return rootView.getDrawingCache();
+    }
+
+
 }

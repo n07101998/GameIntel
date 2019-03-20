@@ -9,45 +9,49 @@
     tools:context=".ViewController.MainActivity">
 
     <LinearLayout
-        android:layout_weight="1"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
         <ProgressBar
-            android:max="10"
-            android:progressDrawable="@drawable/bg_pb"
-            android:progress="10"
             android:id="@+id/pb_count"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RelativeLayout
+            android:layout_height="10dp"
+            android:max="10"
+            android:progress="10"
+            android:progressDrawable="@drawable/bg_pb" />
 
-            android:padding="10dp"
+        <RelativeLayout
+            android:layout_marginBottom="100dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
             <TextView
                 android:id="@+id/txt_point"
-                android:layout_alignParentRight="true"
-                android:textSize="35sp"
-                android:textStyle="bold"
-                android:textColor="@color/colorWhite"
-                android:text="0"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="0"
+                android:textColor="@color/colorWhite"
+                android:textSize="35sp"
+                android:textStyle="bold" />
+            <TextSwitcher
+                android:layout_centerInParent="true"
+                android:id="@+id/txt_ques"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inAnimation="@android:anim/slide_in_left"
+                android:outAnimation="@android:anim/slide_out_right"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+
         </RelativeLayout>
-        <TextSwitcher
-            android:id="@+id/txt_ques"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="80dp"
-            android:inAnimation="@android:anim/slide_in_left"
-            android:outAnimation="@android:anim/slide_out_right"
-            android:textColor="#FFFFFF"
-            android:textSize="70dp"
-            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:padding="10dp"
         android:layout_alignParentBottom="true"
@@ -71,5 +75,4 @@
             android:layout_width="200dp"
             android:layout_height="180dp" />
     </LinearLayout>
-
 </RelativeLayout>

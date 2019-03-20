@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity {
                 TextView textView = new TextView(MainActivity.this);
                 textView.setTextColor(Color.WHITE);
                 textView.setTextSize(70);
-                textView.setGravity(Gravity.CENTER_HORIZONTAL);
+                textView.setGravity(Gravity.CENTER);
                 return textView;
             }
         });
